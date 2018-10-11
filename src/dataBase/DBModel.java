@@ -57,7 +57,7 @@ public class DBModel {
                     + "  `ContactNumber` VARCHAR(100) ,\n"
                     + "  `Salary` double DEFAULT NULL,\n"
                     + "  `Address` text,\n"
-                    + "  `Password` VARCHAR(45),\n"
+                    + "  `Password` VARCHAR(200),\n"
                     + "  `Status` tinyint(1) NOT NULL DEFAULT '0',\n"
                     + "  `UserImage` mediumblob,\n"
                     + "  `Date` date NOT NULL,\n"

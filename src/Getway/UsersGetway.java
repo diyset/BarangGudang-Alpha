@@ -8,6 +8,7 @@ package Getway;
 import DAL.Supplyer;
 import DAL.Users;
 import List.ListEmployee;
+import controller.application.util.UpdateableBcrypt;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
 import javafx.scene.image.Image;
@@ -33,6 +34,7 @@ public class UsersGetway {
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
 
+    UpdateableBcrypt bcrypt = new UpdateableBcrypt();
     public void save(Users users) {
 
         if (isUniqName(users)) {
@@ -46,7 +48,7 @@ public class UsersGetway {
                 pst.setString(5, users.contactNumber);
                 pst.setString(6, users.salary);
                 pst.setString(7, users.address);
-                pst.setString(8, users.password);
+                pst.setString(8, bcrypt.hash(users.password));
                 pst.setString(9, "1");
                 if (users.imagePath != null) {
                     InputStream is;

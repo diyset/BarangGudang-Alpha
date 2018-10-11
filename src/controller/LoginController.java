@@ -33,6 +33,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import media.userNameMedia;
 import DAL.Users;
+import controller.application.util.UpdateableBcrypt;
 import dataBase.DBProperties;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -60,6 +61,7 @@ public class LoginController implements Initializable {
 
     CustomTf cTF = new CustomTf();
     CustomPf cPF = new CustomPf();
+    UpdateableBcrypt bcrypt = new UpdateableBcrypt();
 
     @FXML
     private Button btnLogin;
@@ -155,28 +157,42 @@ public class LoginController implements Initializable {
             adminPanelStage.setMaximized(true);
             if (isValidCondition()) {
                 try {
-                    pst = con.prepareStatement("select * from " + db + ".User where UsrName=? and Password=? and Status=1");
+
+                    pst = con.prepareStatement("select * from " + db + ".User where UsrName=? and Status=1");
+                    System.out.println(bcrypt.hash(pfUserPassword.getText()));
                     pst.setString(1, tfUserName.getText());
-                    pst.setString(2, pfUserPassword.getText());
+//                  pst.setString(2, pfUserPassword.getText());
+//                    pst.setString(2, bcrypt.verifyHash(pfUserPassword.getText(),bcrypt.hash(pfUserPassword.getText())));
                     rs = pst.executeQuery();
                     if (rs.next()) {
-                        userNameMedia usrNameMedia = new userNameMedia(rs.getString(1), rs.getString(2));
-                        ApplicationController apControl = loader.getController();
-                        apControl.setUsrNameMedia(usrNameMedia);
-                        apControl.btnHomeOnClick(event);
-                        apControl.permission();
-                        apControl.viewDetails();
-                        adminPanelStage.setScene(adminPanelScene);
-                        adminPanelStage.getIcons().add(new Image("/image/icon.png"));
-                        adminPanelStage.setTitle(rs.getString(3));
-                        adminPanelStage.show();
+                        if (bcrypt.verifyHash(pfUserPassword.getText(), rs.getString("Password"))) {
+                            userNameMedia usrNameMedia = new userNameMedia(rs.getString(1), rs.getString(2));
+                            ApplicationController apControl = loader.getController();
+                            apControl.setUsrNameMedia(usrNameMedia);
+                            apControl.btnHomeOnClick(event);
+                            apControl.permission();
+                            apControl.viewDetails();
+                            adminPanelStage.setScene(adminPanelScene);
+                            adminPanelStage.getIcons().add(new Image("/image/icon.png"));
+                            adminPanelStage.setTitle(rs.getString(3));
+                            adminPanelStage.show();
 
-                        Stage stage = (Stage) btnLogin.getScene().getWindow();
-                        stage.close();
+                            Stage stage = (Stage) btnLogin.getScene().getWindow();
+                            stage.close();
+
+                        } else {
+                            System.out.println("Password Not Match");
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Password Not Match");
+                            alert.setHeaderText("Error : Name or Pass Not matched");
+                            alert.setContentText("User Name or Password not matched \ntry Again");
+                            alert.initStyle(StageStyle.UNDECORATED);
+                            alert.showAndWait();
+                        }
                     } else {
-                        System.out.println("Password Not Match");
+                        System.out.println("User Not Found");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Password Not Match");
+                        alert.setTitle("User Not Found!");
                         alert.setHeaderText("Error : Name or Pass Not matched");
                         alert.setContentText("User Name or Password not matched \ntry Again");
                         alert.initStyle(StageStyle.UNDECORATED);
