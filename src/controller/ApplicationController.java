@@ -48,6 +48,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import media.userNameMedia;
+import view.application.about.AboutMeController;
 
 /**
  * FXML Controller class
@@ -314,10 +315,11 @@ public class ApplicationController implements Initializable {
     private void btnAboutOnClick(ActionEvent event) {
 
         try {
+            System.out.println("URL "+getClass().getResource("/view/application/about/AboutMe.fxml"));
             aboutActive();
             FXMLLoader fXMLLoader = new FXMLLoader();
             fXMLLoader.load(getClass().getResource("/view/application/about/AboutMe.fxml").openStream());
-
+            
 //            SellController sellController = fXMLLoader.getController();
 //            sellController.acMainSells.getStylesheets().add("/style/MainStyle.css");
 //            sellController.tbtnSellOnAction(event);

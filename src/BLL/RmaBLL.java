@@ -16,7 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.StageStyle;
 
 /**
- * Created by rifat on 8/15/15.
+ * Created by lerkud on 8/15/15.
  */
 public class RmaBLL {
     SQL sql = new SQL();

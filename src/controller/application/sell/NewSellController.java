@@ -39,6 +39,7 @@ import List.ListPreSell;
 import custom.CustomTf;
 import custom.RandomIdGenarator;
 import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -149,9 +150,15 @@ public class NewSellController implements Initializable {
 
     @FXML
     private void tblCustomerOnClick(MouseEvent event) {
+        try{
         mbtnCustomer.setText(tblCustomerSortView.getSelectionModel().getSelectedItem().getCustomerName());
         customerId = tblCustomerSortView.getSelectionModel().getSelectedItem().getId();
         System.out.println(customerId);
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     @FXML
@@ -259,8 +266,8 @@ public class NewSellController implements Initializable {
             }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sucess");
-            alert.setHeaderText("Soled");
-            alert.setContentText("Soled Sucessfuly");
+            alert.setHeaderText("Sold");
+            alert.setContentText("Sold Sucessfuly");
             alert.initStyle(StageStyle.UNDECORATED);
             alert.showAndWait();
 

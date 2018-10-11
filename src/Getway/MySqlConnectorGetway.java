@@ -6,6 +6,7 @@
 package Getway;
 
 import DAL.MysqlConnector;
+import dataBase.DBConnection;
 import dataBase.DBProperties;
 import dataBase.SQLightConnection;
 import java.sql.Connection;
@@ -22,7 +23,9 @@ import java.util.logging.Logger;
 public class MySqlConnectorGetway {
 
     SQLightConnection qLightConnection = new SQLightConnection();
+//    DBConnection bConnection = new DBConnection();
     Connection con = qLightConnection.sqliteConnection();
+//    Connection con = bConnection.geConnection();
     PreparedStatement pst;
     ResultSet rs;
     

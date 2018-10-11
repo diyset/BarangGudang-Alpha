@@ -40,8 +40,9 @@ import media.userNameMedia;
 public class ViewSellController implements Initializable{
     
     userNameMedia nameMedia;
-    
+    // Object Sell Cart
     SellCart sellCart = new SellCart();
+    // Gate Way backend SellCart
     SellCartGerway sellCartGerway = new SellCartGerway();
     
     String userId;

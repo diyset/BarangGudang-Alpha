@@ -34,12 +34,12 @@ public class SQLightConnection {
 
     public Connection sqliteConnection() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            con = DriverManager.getConnection("jdbc:sqlite:storekeeperConnection.db");
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pembukuan-test", "root", "");
             System.out.println("SQLIGHT DATABASE OPENED SUCESSFULY");
             pst = con.prepareStatement(table);
             pst.execute();
-            System.out.println("SUcessfuly crrate table");
+            System.out.println("Sucessfuly create table");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SQLightConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

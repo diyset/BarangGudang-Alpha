@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="acMain" onKeyPressed="#acMain" onMouseMoved="#acMainOnMouseMove" prefHeight="593.0" prefWidth="767.0" stylesheets="@../style/Application.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ApplicationController">
+<AnchorPane id="AnchorPane" fx:id="acMain" onKeyPressed="#acMain" onMouseMoved="#acMainOnMouseMove" prefHeight="593.0" prefWidth="767.0" stylesheets="@../style/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ApplicationController">
    <children>
       <StackPane layoutY="-9.0" prefHeight="593.0" prefWidth="767.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,9 +34,9 @@
                            <content>
                               <AnchorPane BorderPane.alignment="CENTER">
                                  <children>
-                                    <Text fill="#cc3535" layoutX="8.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DashBord">
+                                    <Text fill="#cc3535" layoutX="8.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Management">
                                        <font>
-                                          <Font name="System Bold Italic" size="21.0" />
+                                          <Font name="System Bold Italic" size="17.0" />
                                        </font>
                                     </Text>
                                     <ImageView fitHeight="5.0" fitWidth="114.0" layoutX="45.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
@@ -162,7 +173,7 @@
                                                       <AnchorPane prefHeight="20.0" prefWidth="120.0">
                                                          <children>
                                                             <Circle fx:id="imgUsrTop" fill="DODGERBLUE" layoutX="26.0" layoutY="24.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" />
-                                                            <Label fx:id="lblUsrName" layoutX="52.0" layoutY="17.0" text="Rifat" />
+                                                            <Label fx:id="lblUsrName" layoutX="52.0" layoutY="17.0" text="Admin" />
                                                          </children>
                                                       </AnchorPane>
                                                    </graphic>
@@ -196,7 +207,7 @@
                                     </HBox>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                        <children>
-                                          <Label layoutX="62.0" layoutY="23.0" text="My Logo Goes Hear" textFill="#fff7f7" />
+                                          <Label layoutX="62.0" layoutY="23.0" text="LOGO HERE" textFill="#fff7f7" />
                                        </children>
                                     </AnchorPane>
                                  </children>

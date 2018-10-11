@@ -2,6 +2,7 @@ package Getway;
 
 import DAL.SellCart;
 import List.ListSold;
+import controller.application.util.Constants;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
 import dataBase.SQL;
@@ -10,12 +11,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by rifat on 8/16/15.
+ * Created by lerkud on 8/16/15.
  */
 public class SellCartGerway {
 
@@ -23,6 +28,7 @@ public class SellCartGerway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
     
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
@@ -64,10 +70,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = rs.getString(5);
-                sellCart.sellPrice = rs.getString(6);
+                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = rs.getString(8);
+                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);
@@ -95,10 +101,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = rs.getString(5);
-                sellCart.sellPrice = rs.getString(6);
+                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = rs.getString(8);
+                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);
@@ -128,10 +134,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = rs.getString(5);
-                sellCart.sellPrice = rs.getString(6);
+                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = rs.getString(8);
+                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);

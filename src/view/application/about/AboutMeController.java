@@ -18,17 +18,17 @@ import javafx.scene.image.ImageView;
  * @author rifat
  */
 public class AboutMeController implements Initializable {
-    @FXML
-    private ImageView imgMyImg;
+//    @FXML
+//    private ImageView imgMyImg;
     
-    Image image = new Image("/image/myPic2.jpg");
+//    Image image = new Image("/image/myPic2.jpg");
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imgMyImg.setImage(image);
+//        imgMyImg.setImage(image);
     }    
     
 }

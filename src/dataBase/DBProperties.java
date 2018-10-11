@@ -32,7 +32,7 @@ public class DBProperties {
             output = new FileOutputStream("database.properties");
             properties.setProperty("host", "localhost");
             properties.setProperty("port", "3306");
-            properties.setProperty("db", "storekeeper");
+            properties.setProperty("db", "pembukuan");
             properties.setProperty("user", "root");
             properties.setProperty("password", "");
             properties.store(output, null);
