@@ -17,5 +17,8 @@ public class Constants {
     
 //    private static String 
     
-    public final static DecimalFormat df = new DecimalFormat("#,##0.00");
+    public final static DecimalFormat dfWithCurrency = new DecimalFormat("'Rp.' #,##0.00");
+    public final static DecimalFormat df = new DecimalFormat("#,###.00");
+    
+    public final static String PATH_FILE_REPORT_JASPER = "/report/";
 }

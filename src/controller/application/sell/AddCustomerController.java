@@ -63,8 +63,10 @@ public class AddCustomerController implements Initializable {
         customer.customerConNo = taCustomerContact.getText().trim();
         customer.userId = userId;
         customerBLL.save(customer);
+        Stage stage = (Stage) btnSave.getScene().getWindow();
+        stage.close();
     }
-
+    
     @FXML
     private void btnCloseOnAction(ActionEvent event) {
         Stage stage = (Stage) btnClose.getScene().getWindow();

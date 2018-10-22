@@ -11,6 +11,7 @@ import controller.application.EmployeController;
 import controller.application.SellController;
 import controller.application.SettingsController;
 import controller.application.StockController;
+import controller.application.WarehouseController;
 import controller.application.home.HomeController;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
@@ -135,6 +136,10 @@ public class ApplicationController implements Initializable {
     UsersGetway usersGetway = new UsersGetway();
 
     private userNameMedia usrNameMedia;
+    @FXML
+    private ImageView imgWarehouseBtn;
+    @FXML
+    private Button btnWarehouse;
 
     public userNameMedia getUsrNameMedia() {
         return usrNameMedia;
@@ -171,6 +176,8 @@ public class ApplicationController implements Initializable {
     Image settingRed = new Image("/icon/settingsRed.png");
     Image about = new Image("/icon/about.png");
     Image aboutRed = new Image("/icon/aboutRed.png");
+    Image warehouse = new Image("/icon/warehouse.png");
+    Image warehouseRed = new Image("/icon/warehouseRed.png");
 
     /**
      * Initializes the controller class.
@@ -334,8 +341,8 @@ public class ApplicationController implements Initializable {
     @FXML
     private void btnSellOnClick(ActionEvent event) {
         sellActive();
-        SellController controller = new SellController();
         userNameMedia nm = new userNameMedia();
+        SellController sc = new SellController();
         try {
 
             FXMLLoader fXMLLoader = new FXMLLoader();
@@ -377,14 +384,21 @@ public class ApplicationController implements Initializable {
             pst.setString(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {
+                /*
+                17 = Divisi Sales
+                15 = Divisi Admin
+                
+                */
+                
                 if (rs.getInt(17) == 0) {
                     btnEmplopye.setDisable(true);
+                    btnStore.setDisable(true);
+                    btnWarehouse.setDisable(true);
                 }
                 if (rs.getInt(15) == 0) {
                     btnSell.setDisable(true);
-                } else {
+                } 
 
-                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,12 +412,14 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employee);
         imgSettingsBtn.setImage(setting);
         imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(activeStyle);
         btnStore.setStyle(defultStyle);
         btnSell.setStyle(defultStyle);
         btnEmplopye.setStyle(defultStyle);
         btnSettings.setStyle(defultStyle);
         btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
 
     private void sotreActive() {
@@ -413,12 +429,14 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employee);
         imgSettingsBtn.setImage(setting);
         imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(defultStyle);
         btnStore.setStyle(activeStyle);
         btnSell.setStyle(defultStyle);
         btnEmplopye.setStyle(defultStyle);
         btnSettings.setStyle(defultStyle);
         btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
 
     private void sellActive() {
@@ -428,12 +446,14 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employee);
         imgSettingsBtn.setImage(setting);
         imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(defultStyle);
         btnStore.setStyle(defultStyle);
         btnSell.setStyle(activeStyle);
         btnEmplopye.setStyle(defultStyle);
         btnSettings.setStyle(defultStyle);
         btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
 
     private void employeeActive() {
@@ -443,12 +463,14 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employeeRed);
         imgSettingsBtn.setImage(setting);
         imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(defultStyle);
         btnStore.setStyle(defultStyle);
         btnSell.setStyle(defultStyle);
         btnEmplopye.setStyle(activeStyle);
         btnSettings.setStyle(defultStyle);
         btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
 
     private void settingsActive() {
@@ -458,12 +480,14 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employee);
         imgSettingsBtn.setImage(settingRed);
         imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(defultStyle);
         btnStore.setStyle(defultStyle);
         btnSell.setStyle(defultStyle);
         btnEmplopye.setStyle(defultStyle);
         btnSettings.setStyle(activeStyle);
         btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
 
     private void aboutActive() {
@@ -473,13 +497,34 @@ public class ApplicationController implements Initializable {
         imgEmployeBtn.setImage(employee);
         imgSettingsBtn.setImage(setting);
         imgAboutBtn.setImage(aboutRed);
+        imgWarehouseBtn.setImage(warehouse);
         btnHome.setStyle(defultStyle);
         btnStore.setStyle(defultStyle);
         btnSell.setStyle(defultStyle);
         btnEmplopye.setStyle(defultStyle);
         btnSettings.setStyle(defultStyle);
         btnAbout.setStyle(activeStyle);
+        btnWarehouse.setStyle(defultStyle);
     }
+    
+       private void warehouseActive() {
+        imgHomeBtn.setImage(home);
+        imgStoreBtn.setImage(stock);
+        imgSellBtn.setImage(sell);
+        imgEmployeBtn.setImage(employee);
+        imgSettingsBtn.setImage(setting);
+        imgAboutBtn.setImage(about);
+        imgWarehouseBtn.setImage(warehouseRed);
+        btnHome.setStyle(defultStyle);
+        btnStore.setStyle(defultStyle);
+        btnSell.setStyle(defultStyle);
+        btnEmplopye.setStyle(defultStyle);
+        btnSettings.setStyle(defultStyle);
+        btnAbout.setStyle(defultStyle);
+        btnWarehouse.setStyle(activeStyle);
+    }
+    
+    
 
     public void viewDetails() {
         users.id = id;
@@ -489,5 +534,28 @@ public class ApplicationController implements Initializable {
         imgUsrTop.setFill(new ImagePattern(image));
         lblFullName.setText(users.fullName);
         lblUsrNamePopOver.setText(users.userName);
+    }
+
+    @FXML
+    private void btnWarehouseOnClick(ActionEvent event) {
+        warehouseActive();
+        userNameMedia nm = new userNameMedia();
+        WarehouseController wc = new WarehouseController();
+        
+        try{
+            FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.load(getClass().getResource("/view/application/Warehouse.fxml").openStream());
+            nm.setId(id);
+            WarehouseController warehouseController = fXMLLoader.getController();
+            warehouseController.setNameMedia(usrNameMedia);
+            warehouseController.acMainWarehouses.getStylesheets().add("/style/MainStyle.css");
+            warehouseController.tbtnWarehouseOnAction(event);
+            AnchorPane anchorPane = fXMLLoader.getRoot();
+            acContent.getChildren().clear();
+            acContent.getChildren().add(anchorPane);
+        } catch(IOException ex){
+            Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

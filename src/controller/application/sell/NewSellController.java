@@ -36,9 +36,13 @@ import DAL.SellCart;
 import Getway.SellCartGerway;
 import List.ListCustomer;
 import List.ListPreSell;
+import controller.application.util.Constants;
 import custom.CustomTf;
 import custom.RandomIdGenarator;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -97,7 +101,6 @@ public class NewSellController implements Initializable {
     private Label lblTotal;
     @FXML
     private Label lblNetCost;
-    private Label lblDiscount;
     @FXML
     private Label lblUnit;
     @FXML
@@ -125,7 +128,10 @@ public class NewSellController implements Initializable {
     private Button btnClearSelected;
     @FXML
     private Label lblSellId;
+    
 
+    
+//    private Double oldTotalBuy = 0.0;
     public void setNameMedia(userNameMedia nameMedia) {
         userId = nameMedia.getId();
         this.nameMedia = nameMedia;
@@ -165,6 +171,7 @@ public class NewSellController implements Initializable {
     private void mbtnCustomerOnClicked(MouseEvent event) {
         customer.customerName = tfCustomerSearch.getText().trim();
         tblCustomerSortView.setItems(customer.customerList);
+        System.out.println(customer.customerList);
         tblClmCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         tblClmCustomerPhoneNo.setCellValueFactory(new PropertyValueFactory<>("customerContNo"));
         customerGetway.searchView(customer);
@@ -194,7 +201,7 @@ public class NewSellController implements Initializable {
             currentProductGetway.sView(currrentProduct);
             lblUnit.setText(currrentProduct.unitName);
             lblCurrentQuantity.setText(currrentProduct.quantity);
-            lblPursesPrice.setText(currrentProduct.pursesPrice);
+            lblPursesPrice.setText(Constants.dfWithCurrency.format(Double.parseDouble(currrentProduct.pursesPrice)));
             tfBrand.setText(currrentProduct.brandName);
             tfSupplyer.setText(currrentProduct.supplierName);
             tfCatagory.setText(currrentProduct.catagoryName);
@@ -385,9 +392,15 @@ public class NewSellController implements Initializable {
     }
 
     public void genarateSellID() {
-        String id = RandomIdGenarator.randomstring();
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int nowYear = calendar.get(Calendar.YEAR);
+        int nowMonth = calendar.get(Calendar.MONTH);
+        int nowDayInMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        String id = String.valueOf(nowYear)+String.valueOf(nowMonth)+String.valueOf(nowDayInMonth)+RandomIdGenarator.randomstring();
         if (id.matches("001215")) {
-            String nId = RandomIdGenarator.randomstring();
+            String nId = nowYear+nowMonth+RandomIdGenarator.randomstring();
             lblSellId.setText(nId);
         } else {
             lblSellId.setText(id);
@@ -403,7 +416,7 @@ public class NewSellController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR");
-            alert.setContentText("Please fill all requre field");
+            alert.setContentText("Please fill all require field");
             alert.initStyle(StageStyle.UNDECORATED);
             alert.showAndWait();
             return isNotNull;

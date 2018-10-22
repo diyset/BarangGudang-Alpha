@@ -19,9 +19,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by lerkud on 8/16/15.
- */
 public class SellCartGerway {
 
     DBConnection dbCon = new DBConnection();
@@ -70,10 +67,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
-                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
+                sellCart.pursesPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
+                sellCart.totalPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);
@@ -101,10 +98,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
-                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
+                sellCart.pursesPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
+                sellCart.totalPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);
@@ -134,10 +131,10 @@ public class SellCartGerway {
                 sellCart.sellID = rs.getString(2);
                 sellCart.customerID = rs.getString(3);
                 sellCart.productID = rs.getString(4);
-                sellCart.pursesPrice = Constants.df.format(Double.parseDouble(rs.getString(5)));
-                sellCart.sellPrice = Constants.df.format(Double.parseDouble(rs.getString(6)));
+                sellCart.pursesPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(5)));
+                sellCart.sellPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(6)));
                 sellCart.quantity = rs.getString(7);
-                sellCart.totalPrice = Constants.df.format(Double.parseDouble(rs.getString(8)));
+                sellCart.totalPrice = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(8)));
                 sellCart.warrentyVoidDate = rs.getString(9);
                 sellCart.sellerID = rs.getString(10);
                 sellCart.sellDate = rs.getString(11);
@@ -145,8 +142,14 @@ public class SellCartGerway {
                 sellCart.sellerName = sql.getName(sellCart.sellerID, sellCart.sellerName, "User");
                 sellCart.customerName = sql.getName(sellCart.customerID, sellCart.customerName, "Customer");
                 
-                sellCart.soldList.addAll(new ListSold(sellCart.Id,sellCart.sellID ,sellCart.productID, sellCart.givenProductID, sellCart.customerID, sellCart.customerName, sellCart.pursesPrice, sellCart.sellPrice, null, sellCart.quantity, sellCart.totalPrice, sellCart.pursrsDate, sellCart.warrentyVoidDate, sellCart.sellerID, sellCart.sellerName, sellCart.sellDate));
-            }pst.close();
+                sellCart.soldList.addAll(new ListSold(sellCart.Id,sellCart.sellID, 
+                        sellCart.productID, sellCart.givenProductID, sellCart.customerID, 
+                        sellCart.customerName, sellCart.pursesPrice, sellCart.sellPrice, 
+                        null, sellCart.quantity, sellCart.totalPrice, sellCart.pursrsDate, 
+                        sellCart.warrentyVoidDate, sellCart.sellerID, sellCart.sellerName, 
+                        sellCart.sellDate));
+            }
+            pst.close();
             con.close();
             rs.close();
         } catch (SQLException ex) {

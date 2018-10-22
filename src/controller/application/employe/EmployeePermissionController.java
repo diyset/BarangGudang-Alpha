@@ -94,8 +94,7 @@ public class EmployeePermissionController implements Initializable {
     private CheckBox cbOrgManage;
     @FXML
     private CheckBox cbMenageRMA;
-    
-    
+
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
 
@@ -141,7 +140,7 @@ public class EmployeePermissionController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("UPDATE "+db+".UserPermission SET AddProduct=?,AddSupplyer=?,AddBrand=?,AddCatagory=?,AddUnit=?,AddCustomer=?,UpdateProduct=?,UpdateSupplyer=?,UpdateBrand=?,UpdateCatagory=?,UpdateUnit=?,UpdateCustomer=?,SellProduct=?,ProvideDiscount=?,EmployeManage=?,OrgManage=?,ChangeOwnPass=?,RMAManage=? WHERE UserId=?");
+            pst = con.prepareStatement("UPDATE " + db + ".UserPermission SET AddProduct=?,AddSupplyer=?,AddBrand=?,AddCatagory=?,AddUnit=?,AddCustomer=?,UpdateProduct=?,UpdateSupplyer=?,UpdateBrand=?,UpdateCatagory=?,UpdateUnit=?,UpdateCustomer=?,SellProduct=?,ProvideDiscount=?,EmployeManage=?,OrgManage=?,ChangeOwnPass=?,RMAManage=? WHERE UserId=?");
 //            pst.setString(1, id);
             pst.setInt(1, addProduct);
             pst.setInt(2, addSupplyer);
@@ -214,7 +213,7 @@ public class EmployeePermissionController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+db+".UserPermission where Id=?");
+            pst = con.prepareStatement("select * from " + db + ".UserPermission where Id=?");
             pst.setString(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {

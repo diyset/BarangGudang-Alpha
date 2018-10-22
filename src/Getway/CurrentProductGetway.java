@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
@@ -65,6 +67,7 @@ public class CurrentProductGetway {
     }
 
     public void view(CurrentProduct currentProduct) {
+        lCurProduk.clear();
         currentProduct.currentProductList.clear();
         con = dbCon.geConnection();
 
@@ -94,6 +97,8 @@ public class CurrentProductGetway {
                 currentProduct.rmaName = sql.getName(currentProduct.rmaId, currentProduct.rmaName, "RMA");
                 currentProduct.userName = sql.getName(currentProduct.userId, currentProduct.userName, "User");
                 currentProduct.currentProductList.addAll(new ListProduct(currentProduct.id, currentProduct.productId, currentProduct.productName, currentProduct.quantity, currentProduct.description, currentProduct.supplierName, currentProduct.brandName, currentProduct.catagoryName, currentProduct.unitName, currentProduct.pursesPrice, currentProduct.sellPrice, currentProduct.rmaName, currentProduct.userName, currentProduct.date));
+//                lCurProduk.add(currentProduct.currentProductList.addAll());
+                
             }
             pst.close();
             con.close();
@@ -141,9 +146,9 @@ public class CurrentProductGetway {
     }
 
     public void viewFistTen(CurrentProduct currentProduct) {
-        con = dbCon.geConnection();
-
+        lCurProduk.clear();
         currentProduct.currentProductList.clear();
+        con = dbCon.geConnection();
         try {
             pst = con.prepareStatement("select * from "+db+".Products limit 0,15");
             rs = pst.executeQuery();
@@ -170,6 +175,7 @@ public class CurrentProductGetway {
                 currentProduct.rmaName = sql.getName(currentProduct.rmaId, currentProduct.rmaName, "RMA");
                 currentProduct.userName = sql.getName(currentProduct.userId, currentProduct.userName, "User");
                 currentProduct.currentProductList.addAll(new ListProduct(currentProduct.id, currentProduct.productId, currentProduct.productName, currentProduct.quantity, currentProduct.description, currentProduct.supplierName, currentProduct.brandName, currentProduct.catagoryName, currentProduct.unitName, currentProduct.pursesPrice, currentProduct.sellPrice, currentProduct.rmaName, currentProduct.userName, currentProduct.date));
+                lCurProduk.add(new ListProduct(currentProduct.id, currentProduct.productId, currentProduct.productName, currentProduct.quantity, currentProduct.description, currentProduct.supplierName, currentProduct.brandName, currentProduct.catagoryName, currentProduct.unitName, currentProduct.pursesPrice, currentProduct.sellPrice, currentProduct.rmaName, currentProduct.userName, currentProduct.date));
             }
             pst.close();
             con.close();
@@ -179,9 +185,51 @@ public class CurrentProductGetway {
         }
     }
 
+    public List<ListProduct> lCurProduk = new ArrayList<>();
     public void searchView(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
+        lCurProduk.clear();
+        currentProduct.currentProductList.clear();
+        try {
+            pst = con.prepareStatement("select * from "+db+".Products where ProductId like ? or ProductName like ?");
+            pst.setString(1, "%" + currentProduct.productId + "%");
+            pst.setString(2, "%" + currentProduct.productId + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
 
+                currentProduct.id = rs.getString(1);
+                currentProduct.productId = rs.getString(2);
+                currentProduct.productName = rs.getString(3);
+                currentProduct.quantity = rs.getString(4);
+                currentProduct.description = rs.getString(5);
+                currentProduct.supplierId = rs.getString(6);
+                currentProduct.brandId = rs.getString(7);
+                currentProduct.catagoryId = rs.getString(8);
+                currentProduct.unitId = rs.getString(9);
+                currentProduct.pursesPrice = rs.getString(10);
+                currentProduct.sellPrice = rs.getString(11);
+                currentProduct.rmaId = rs.getString(12);
+                currentProduct.userId = rs.getString(13);
+                currentProduct.date = rs.getString(14);
+                currentProduct.supplierName = sql.getName(currentProduct.supplierId, currentProduct.supplierName, "Supplyer");
+                currentProduct.brandName = sql.getName(currentProduct.brandId, currentProduct.brandName, "Brands");
+                currentProduct.catagoryName = sql.getName(currentProduct.catagoryId, currentProduct.catagoryName, "Catagory");
+                currentProduct.unitName = sql.getName(currentProduct.unitId, currentProduct.unitName, "Unit");
+                currentProduct.rmaName = sql.getName(currentProduct.rmaId, currentProduct.rmaName, "RMA");
+                currentProduct.userName = sql.getName(currentProduct.userId, currentProduct.userName, "User");
+                currentProduct.currentProductList.addAll(new ListProduct(currentProduct.id, currentProduct.productId, currentProduct.productName, currentProduct.quantity, currentProduct.description, currentProduct.supplierName, currentProduct.brandName, currentProduct.catagoryName, currentProduct.unitName, currentProduct.pursesPrice, currentProduct.sellPrice, currentProduct.rmaName, currentProduct.userName, currentProduct.date));
+                lCurProduk.add((ListProduct) currentProduct.currentProductList);
+            }
+            pst.close();
+            con.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public void searchViewStoreIn(CurrentProduct currentProduct) {
+        con = dbCon.geConnection();
         currentProduct.currentProductList.clear();
         try {
             pst = con.prepareStatement("select * from "+db+".Products where ProductId like ? or ProductName like ?");
@@ -417,7 +465,7 @@ public class CurrentProductGetway {
                 long dateRMA = Long.parseLong(currentProduct.rmaDayesss);
 
                 currentProduct.warrentyVoidDate = LocalDate.now().plusDays(dateRMA).toString();
-
+                    
             }
             pst.close();
             con.close();

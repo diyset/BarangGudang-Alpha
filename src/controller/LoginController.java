@@ -174,7 +174,7 @@ public class LoginController implements Initializable {
                             apControl.viewDetails();
                             adminPanelStage.setScene(adminPanelScene);
                             adminPanelStage.getIcons().add(new Image("/image/icon.png"));
-                            adminPanelStage.setTitle(rs.getString(3));
+                            adminPanelStage.setTitle("StoreKeeper - Menu");
                             adminPanelStage.show();
 
                             Stage stage = (Stage) btnLogin.getScene().getWindow();

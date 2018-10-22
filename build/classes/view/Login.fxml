@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="apMother" prefHeight="620.0" prefWidth="989.0" stylesheets="@../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane fx:id="apMother" prefHeight="620.0" prefWidth="989.0" stylesheets="@../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
       <HBox alignment="CENTER" prefHeight="535.0" prefWidth="760.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,7 +23,7 @@
                <children>
                   <AnchorPane fx:id="apDesignPane" prefHeight="384.0" prefWidth="668.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="18.0" text="Store Keeper" textFill="#ddcdcc">
+                        <Label layoutX="14.0" layoutY="18.0" text="Pembukuan Toko Bunga" textFill="#ddcdcc">
                            <font>
                               <Font name="System Bold" size="31.0" />
                            </font>
@@ -38,7 +38,7 @@
                                     <Font size="11.0" />
                                  </font>
                               </Hyperlink>
-                              <Label layoutX="80.0" layoutY="14.0" text="SIGN IN">
+                              <Label layoutX="103.0" layoutY="14.0" text="LOGIN">
                                  <font>
                                     <Font name="DejaVu Sans Bold" size="29.0" />
                                  </font>
@@ -62,16 +62,16 @@
                               <Button fx:id="btnLogin" layoutX="96.0" layoutY="203.0" mnemonicParsing="false" onAction="#btnLogin" text="Log In" />
                            </children>
                         </AnchorPane>
-                        <Text fill="WHITE" layoutX="14.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thanks for choosing “storekeeper” . This is an Open source product for you" wrappingWidth="319.99999513477087">
+                        <Text fill="WHITE" layoutX="14.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Management System Data Company StoreKeeper" wrappingWidth="319.99999513477087">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font></Text>
-                        <Text fill="#f5efef" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You can share your comment / Requirement / Bug report with me." wrappingWidth="319.9999902378768">
+                        <Text fill="#f5efef" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jika ada bug laporan segera ke email" wrappingWidth="319.9999902378768">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>
                         </Text>
-                        <Label layoutX="14.0" layoutY="220.0" text="Mail Me:  kmrifat@gmail.com" textFill="#e8d9d9" />
+                        <Label layoutX="14.0" layoutY="220.0" text="Email:  diyansetiyadi@gmail.com" textFill="#e8d9d9" />
                         <Hyperlink id="hl-database" fx:id="hlDatabase" layoutX="490.0" layoutY="346.0" onAction="#hlDbOnAction" text="DB SETUP" />
                      </children>
                   </AnchorPane>

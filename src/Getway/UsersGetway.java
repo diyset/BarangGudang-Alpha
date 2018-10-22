@@ -35,12 +35,42 @@ public class UsersGetway {
     String db = dBProperties.loadPropertiesFile();
 
     UpdateableBcrypt bcrypt = new UpdateableBcrypt();
+
+    public void searchView(Users users) {
+        con = dbConnection.geConnection();
+        users.employeeLists.clear();
+        try {
+            con = dbConnection.geConnection();
+            pst = con.prepareCall("select * from " + db+".User where UsrName like ? ORDER BY UsrName");
+            pst.setString(1, "%"+users.userName+"%");
+            rs = pst.executeQuery();
+                while (rs.next()) {
+                    users.id = rs.getString(1);
+                    users.userName = rs.getString(2);
+                    users.fullName = rs.getString(3);
+                    users.emailAddress = rs.getString(4);
+                    users.contactNumber = rs.getString(5);
+                    users.contactNumber = rs.getString(6);
+                    users.salary = rs.getString(7);
+                    users.address = rs.getString(8);
+                    users.status = rs.getString(10);
+                    
+                    users.employeeLists.add(new ListEmployee(users.id, users.userName));
+                }
+                pst.close();
+                con.close();
+                rs.close();
+        } catch (SQLException e) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE,null, e);
+        }
+    }
+
     public void save(Users users) {
 
         if (isUniqName(users)) {
             con = dbConnection.geConnection();
             try {
-                pst = con.prepareStatement("insert into "+db+".User values(?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("insert into " + db + ".User values(?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, null);
                 pst.setString(2, users.userName);
                 pst.setString(3, users.fullName);
@@ -81,7 +111,7 @@ public class UsersGetway {
     public void view(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+db+".User");
+            pst = con.prepareStatement("select * from " + db + ".User");
             rs = pst.executeQuery();
             while (rs.next()) {
                 users.id = rs.getString(1);
@@ -100,7 +130,7 @@ public class UsersGetway {
     public void selectedView(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareCall("select * from "+db+".User where id=?");
+            pst = con.prepareCall("select * from " + db + ".User where id=?");
             pst.setString(1, users.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -118,7 +148,7 @@ public class UsersGetway {
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(users.userImage.getBytes(1, (int) users.userImage.length()));
                     users.image = new Image(byteArrayInputStream);
                 } else {
-                    users.image = new Image("/image/rifat.jpg");
+                    users.image = new Image("/image/admin-user.png");
                 }
                 users.date = rs.getString(11);
                 users.creatorId = rs.getString(12);
@@ -136,7 +166,7 @@ public class UsersGetway {
     public void update(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("UPDATE "+db+".User SET FullName=?, EmailAddress=?,ContactNumber=?,Salary=COALESCE(?, Salary),Address=?,Password=COALESCE(?, Password), Status=COALESCE(?, Status), UserImage=COALESCE(?, UserImage) WHERE UsrName=?");
+            pst = con.prepareStatement("UPDATE " + db + ".User SET FullName=?, EmailAddress=?,ContactNumber=?,Salary=COALESCE(?, Salary),Address=?,Password=COALESCE(?, Password), Status=COALESCE(?, Status), UserImage=COALESCE(?, UserImage) WHERE UsrName=?");
             pst.setString(1, users.fullName);
             pst.setString(2, users.emailAddress);
             pst.setString(3, users.contactNumber);
@@ -171,7 +201,7 @@ public class UsersGetway {
     public void delete(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("delete from "+db+".User where Id=?");
+            pst = con.prepareStatement("delete from " + db + ".User where Id=?");
             pst.setString(1, users.id);
             pst.executeUpdate();
             pst.close();
@@ -185,7 +215,7 @@ public class UsersGetway {
         con = dbConnection.geConnection();
         boolean isUniqName = false;
         try {
-            pst = con.prepareStatement("select * from "+db+".User where UsrName=?");
+            pst = con.prepareStatement("select * from " + db + ".User where UsrName=?");
             pst.setString(1, users.userName);
             rs = pst.executeQuery();
             while (rs.next()) {

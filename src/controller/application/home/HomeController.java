@@ -6,9 +6,12 @@
 package controller.application.home;
 
 import Getway.CurrentProductGetway;
+import controller.application.util.Constants;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +22,10 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
@@ -53,6 +60,9 @@ public class HomeController implements Initializable {
     
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
+    @FXML
+    private Circle logoShape;
+
 
     /**
      * Initializes the controller class.
@@ -69,7 +79,7 @@ public class HomeController implements Initializable {
             pst = con.prepareStatement("select sum(PursesPrice) from "+db+".Products");
             rs = pst.executeQuery();
             while (rs.next()) {
-                lblStockValue.setText(rs.getString(1));
+                lblStockValue.setText(Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(1))));
             }con.close();
             pst.close();
             rs.close();
@@ -99,7 +109,7 @@ public class HomeController implements Initializable {
             pst = con.prepareStatement("select sum(TotalPrice) from "+db+".Sell");
             rs = pst.executeQuery();
             while(rs.next()){
-                lblSellValue.setText(rs.getString(1));
+                lblSellValue.setText(Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(1))));
             }
             pst = con.prepareStatement("select count(*) from "+db+".User");
             rs = pst.executeQuery();
@@ -109,6 +119,13 @@ public class HomeController implements Initializable {
             pst =con.prepareStatement("select * from "+db+".Organize where Id=1");
             rs = pst.executeQuery();
             while(rs.next()){
+                Image logoImageBlob;
+                Blob imageLogoOrg = rs.getBlob("OrgLogo");
+                if(imageLogoOrg!=null){
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageLogoOrg.getBytes(1, (int)imageLogoOrg.length()));
+                    logoImageBlob = new Image(byteArrayInputStream);
+                   logoShape.setFill(new ImagePattern(logoImageBlob));
+                }
                 lblOrgName.setText(rs.getString(2));
                 txtOrgAddress.setText(rs.getString(5));
                 txtorgPhoneNumber.setText(rs.getString(4));

@@ -38,6 +38,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import media.userNameMedia;
 
 /**
@@ -78,7 +79,7 @@ public class OrgSettingController implements Initializable {
     private TextArea taContactNumber;
     @FXML
     private TextArea taAdddress;
-    
+
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
 
@@ -141,6 +142,7 @@ public class OrgSettingController implements Initializable {
             imagePath = file.getAbsolutePath();
         }
     }
+
     /*
     
      */
@@ -148,7 +150,7 @@ public class OrgSettingController implements Initializable {
     public void showDetails() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+db+".Organize where Id=?");
+            pst = con.prepareStatement("select * from " + db + ".Organize where Id=?");
             pst.setString(1, "1");
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -171,6 +173,7 @@ public class OrgSettingController implements Initializable {
             Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /*
     
      */
@@ -179,7 +182,7 @@ public class OrgSettingController implements Initializable {
         boolean dataFound = true;
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+db+".Organize ORDER BY Id ASC LIMIT 1");
+            pst = con.prepareStatement("select * from " + db + ".Organize ORDER BY Id ASC LIMIT 1");
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("Data Found");
@@ -193,14 +196,15 @@ public class OrgSettingController implements Initializable {
         }
         return dataFound;
     }
+
     /*
-    
+        
      */
 
     private void updateOrganizeWithImage() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update "+db+".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=?,OrgLogo=? where Id=1");
+            pst = con.prepareStatement("Update " + db + ".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=?,OrgLogo=? where Id=1");
 
             pst.setString(1, tfOrganizeName.getText());
             pst.setString(2, tfWebSite.getText());
@@ -226,9 +230,24 @@ public class OrgSettingController implements Initializable {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.showAndWait();
         } catch (SQLException ex) {
-            Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
+                rs.close();
+                pst.close();
+            } catch (SQLException ex1) {
+                Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
+
     /*
     
      */
@@ -237,7 +256,7 @@ public class OrgSettingController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("insert into "+db+".Organize values(?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into " + db + ".Organize values(?,?,?,?,?,?,?)");
             pst.setString(1, "1");
             pst.setString(2, tfOrganizeName.getText());
             pst.setString(3, tfWebSite.getText());
@@ -246,7 +265,13 @@ public class OrgSettingController implements Initializable {
             if (imagePath != null) {
                 try {
                     InputStream is = new FileInputStream(new File(imagePath));
-                    pst.setBlob(6, is);
+                    if (new File(imagePath).getUsableSpace() < 8000) {
+                        pst.setBlob(6, is);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Image size harus dibawah 8mb");
+                        pst.setBlob(6, (Blob) null);
+                    }
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -267,6 +292,7 @@ public class OrgSettingController implements Initializable {
             Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /*
     
      */
@@ -274,7 +300,7 @@ public class OrgSettingController implements Initializable {
     private void updateOrganizeWithOutImage() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update "+db+".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=? where Id=1");
+            pst = con.prepareStatement("Update " + db + ".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=? where Id=1");
 
             pst.setString(1, tfOrganizeName.getText());
             pst.setString(2, tfWebSite.getText());

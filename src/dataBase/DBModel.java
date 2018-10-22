@@ -18,10 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author rifat
- */
 public class DBModel {
     
     Properties properties = new Properties();
@@ -147,31 +143,39 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
 
             pst.execute();
-
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`RMA` (\n"
-                    + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
-                    + "  `RMAName` varchar(100) DEFAULT NULL,\n"
-                    + "  `RMADays` varchar(11) NOT NULL,\n"
-                    + "  `Comment` text DEFAULT NULL,\n"
-                    + "  `CreatorId` int(11) DEFAULT NULL,\n"
-                    + "  `Date` date,\n"
-                    + "  PRIMARY KEY (`Id`),\n"
-                    + "  UNIQUE INDEX `Id` (`Id` ASC));");
-
-            pst.execute();
+/*
+            RMA DISABLED
+            */
+//            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`RMA` (\n"
+//                    + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
+//                    + "  `RMAName` varchar(100) DEFAULT NULL,\n"
+//                    + "  `RMADays` varchar(11) NOT NULL,\n"
+//                    + "  `Comment` text DEFAULT NULL,\n"
+//                    + "  `CreatorId` int(11) DEFAULT NULL,\n"
+//                    + "  `Date` date,\n"
+//                    + "  PRIMARY KEY (`Id`),\n"
+//                    + "  UNIQUE INDEX `Id` (`Id` ASC));");
+//
+//            pst.execute();
             pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`Products` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `ProductId` varchar(20) NOT NULL,\n"
                     + "  `ProductName` varchar(150) NOT NULL,\n"
                     + "  `Quantity` varchar(11) NOT NULL DEFAULT '0', \n"
                     + "  `Description` text ,\n"
-                    + "  `SupplyerId` varchar(11) NOT NULL,\n"
+                    /*
+                    SupplyerId = DISABLED
+                    */
+//                    + "  `SupplyerId` varchar(11) NOT NULL,\n"
                     + "  `BrandId` varchar(11) NOT NULL,\n"
                     + "  `CatagoryId` varchar(11) NOT NULL,\n"
                     + "  `UnitId` varchar(11) NOT NULL,\n"
                     + "  `PursesPrice` varchar(100) NOT NULL,\n"
                     + "  `SellPrice` varchar(100) NOT NULL,\n"
-                    + "  `RMAId` varchar(11) NOT NULL,\n"
+                    /*
+                    RMAID = DISABLED
+                    */
+//                    + "  `RMAId` varchar(11) NOT NULL,\n"
                     + "  `UserId` varchar(11) NOT NULL,\n"
                     + "  `Date` date NOT NULL,\n"
                     + "  PRIMARY KEY (`Id`),\n"
@@ -191,22 +195,38 @@ public class DBModel {
             pst.execute();
 
             pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`Sell` (\n"
-                    + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
-                    + "  `SellId` varchar(10) NOT NULL,\n"
+                    + "  `Id` int(12) NOT NULL AUTO_INCREMENT,\n"
+                    + "  `SellId` varchar(12) NOT NULL,\n"
                     + "  `CustomerId` varchar(11) NOT NULL,\n"
                     + "  `ProductId` varchar(11) NOT NULL,\n"
                     + "  `PursesPrice` double NOT NULL,\n"
                     + "  `SellPrice` double NOT NULL,\n"
                     + "  `Quantity` int(10) NOT NULL,\n"
                     + "  `TotalPrice` double NOT NULL,\n"
-                    + "  `WarrentyVoidDate` varchar(20) NOT NULL,\n"
+                    /*
+                    WarrantyVoid = DISABLED
+                    */
+//                    + "  `WarrentyVoidDate` varchar(20) NOT NULL,\n"
                     + "  `SellerId` int(11) NOT NULL,\n"
                     + "  `SellDate` datetime NOT NULL,\n"
                     + "  PRIMARY KEY (`Id`)\n"
                     + ") ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
             pst.execute();
             
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`StoreIn`(\n"
+                    + " `Id` int(12) NOT NULL AUTO_INCREMENT,\n"
+                    + " `StoreInId` varchar(12) NOT NULL,\n"
+                    + " `ProductId` varchar(20) NOT NULL,\n"
+                    + " `Qty` int(10) NOT NULL,\n"
+                    + " `TotalPrice` double NOT NULL,\n"
+                    + " `SupplierId` int(11) NOT NULL,\n"
+                    + " `UserId` varchar(11) NOT NULL,\n"
+                    + " `Date` date NOT NULL,\n"
+                    + " PRIMARY KEY (`Id`)\n"
+                    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+            pst.execute();
             System.out.println("Create Database Sucessfuly");
+            Logger.getLogger(DBModel.class.getName()).log(Level.INFO,"Create Database Successfully!");
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -215,7 +235,7 @@ public class DBModel {
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);
-                stage.setTitle("Server Configur");
+                stage.setTitle("Server Configure");
                 stage.showAndWait();
             } catch (IOException ex1) {
                 Logger.getLogger(DBModel.class.getName()).log(Level.SEVERE, null, ex1);

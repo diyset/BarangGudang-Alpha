@@ -21,11 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import media.userNameMedia;
 
-/**
- * FXML Controller class
- *
- * @author rifat
- */
 public class SellController implements Initializable {
 
     @FXML
@@ -95,7 +90,7 @@ public class SellController implements Initializable {
 
     @FXML
     private void tbtnReportsOnAction(ActionEvent event) throws IOException {
-
+        
     }
 
 }

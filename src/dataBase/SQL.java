@@ -168,6 +168,24 @@ public class SQL {
 
         return name;
     }
+    
+    public String getNameSupplier(String id, String name, String tableName){
+        con = dbCon.geConnection();
+        try{
+            pst = con.prepareStatement("select * from "+db+"."+tableName+" where Id = ?");
+            pst.setString(1,id);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                name = rs.getString(2);
+            }
+            con.close();
+            pst.close();
+            rs.close();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return name;
+    }
 
     public String getIdNo( String name,String id, String tableName,String fieldName){
 

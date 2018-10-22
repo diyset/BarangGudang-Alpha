@@ -9,10 +9,6 @@ package custom;
 
 import javafx.scene.image.Image;
 
-/**
- *
- * @author rifat
- */
 public class ButtonEffect {
     
     Image menuImage = new Image("/icon/menu.png");

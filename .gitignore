@@ -3,6 +3,8 @@
 *.DS_Store
 
 #NetBeans Project Files
+build/*
+build/
 
 
 #Visual Studio files
@@ -39,7 +41,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 
 #Project files
-[Bb]uild/*
+[Bb]uild/
 
 #Subversion files
 .svn

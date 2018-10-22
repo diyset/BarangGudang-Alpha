@@ -33,14 +33,31 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import media.userNameMedia;
 import List.ListProduct;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import controller.application.SettingsController;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
 import dataBase.SQL;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -55,10 +72,10 @@ public class CurrentStoreController implements Initializable {
     CurrentProduct productCurrent = new CurrentProduct();
     CurrentProductGetway currentProductGetway = new CurrentProductGetway();
     CurrentProductBLL currentProductBLL = new CurrentProductBLL();
-    
+
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
-    
+
     private String usrId;
 
     private userNameMedia media;
@@ -125,6 +142,8 @@ public class CurrentStoreController implements Initializable {
     private Button btnRefresh;
     @FXML
     public AnchorPane apCombobox;
+    @FXML
+    private Button btnReport;
 
     public userNameMedia getMedia() {
         return media;
@@ -166,7 +185,7 @@ public class CurrentStoreController implements Initializable {
         cbSoteViewBrands.setPromptText("Select Brand");
         cbSoteViewCatagory.setPromptText("Select Category");
         try {
-            pst = con.prepareStatement("select * from Supplyer");
+            pst = con.prepareStatement("select * from " + db + ".Supplyer");
             rs = pst.executeQuery();
             while (rs.next()) {
                 cbSoteViewSupplyer.getItems().remove(rs.getString(2));
@@ -189,7 +208,7 @@ public class CurrentStoreController implements Initializable {
         suplyerId = sql.getIdNo(suplyerName, suplyerId, "Supplyer", "SupplyerName");
 
         try {
-            pst = con.prepareStatement("select * from Brands where SupplyerId=?");
+            pst = con.prepareStatement("select * from " + db + ".Brands where SupplyerId=?");
             pst.setString(1, suplyerId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -212,7 +231,7 @@ public class CurrentStoreController implements Initializable {
         suplyerId = sql.getIdNo(suplyerName, suplyerId, "Supplyer", "SupplyerName");
         brandId = sql.getBrandID(suplyerId, brandId, brandName);
         try {
-            pst = con.prepareStatement("select * from Catagory where SupplyerId=? and BrandId=?");
+            pst = con.prepareStatement("select * from " + db + ".Catagory where SupplyerId=? and BrandId=?");
             pst.setString(1, suplyerId);
             pst.setString(2, brandId);
             rs = pst.executeQuery();
@@ -233,7 +252,7 @@ public class CurrentStoreController implements Initializable {
         cbSoteViewRMA.getItems().clear();
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from RMA");
+            pst = con.prepareStatement("select * from " + db + ".RMA");
             rs = pst.executeQuery();
             while (rs.next()) {
                 cbSoteViewRMA.getItems().add(rs.getString(2));
@@ -444,7 +463,7 @@ public class CurrentStoreController implements Initializable {
     public void settingPermission() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+db+".UserPermission where id=?");
+            pst = con.prepareStatement("select * from " + db + ".UserPermission where id=?");
             pst.setString(1, usrId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -503,7 +522,7 @@ public class CurrentStoreController implements Initializable {
         rmaName = cbSoteViewRMA.getSelectionModel().getSelectedItem();
         System.out.println("Rma Name " + rmaName);
         try {
-            pst = con.prepareStatement("select * from "+db+".RMA where RMAName=?");
+            pst = con.prepareStatement("select * from " + db + ".RMA where RMAName=?");
             pst.setString(1, rmaName);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -524,8 +543,66 @@ public class CurrentStoreController implements Initializable {
         if (event.isInertia()) {
             System.out.println("ALT DOWN");
         } else {
-            System.out.println("Noting");
+            System.out.println("Nothing");
         }
+    }
+
+    @FXML
+    private void onClickReport(ActionEvent event) throws DocumentException {
+        Document my_pdf_report = new Document();
+         float[] columnWidths = {1.5f, 2f, 5f, 2f};
+        my_pdf_report.setPageSize(PageSize.LETTER);
+        Font bfBold12 = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0));
+        Font bf12 = new Font(FontFamily.TIMES_ROMAN, 12);
+        Paragraph paragraph = new Paragraph();
+        paragraph.add("Report");
+        try {
+            PdfWriter.getInstance(my_pdf_report, new FileOutputStream("pdf_report_from_sql_using_java.pdf"));
+            my_pdf_report.open();
+            PdfPTable headerTable = new PdfPTable(4);
+            headerTable.setWidthPercentage(90f);
+
+            insertCell(headerTable, "Product Id", Element.ALIGN_CENTER, 1, bfBold12);
+            insertCell(headerTable, "Product Name", Element.ALIGN_CENTER, 1, bfBold12);
+            insertCell(headerTable, "Qty", Element.ALIGN_CENTER, 1, bfBold12);
+            insertCell(headerTable, "Date", Element.ALIGN_CENTER, 1, bfBold12);
+
+            headerTable.setHeaderRows(1);
+
+            //Insert Empty Row
+//            insertCell(headerTable, "", Element.ALIGN_RIGHT, 4, bfBold12);
+            PdfPCell table_cell;
+            List<ListProduct> list = currentProductGetway.lCurProduk;
+            for (ListProduct currentProduct : list) {
+                insertCell(headerTable, currentProduct.productId, Element.ALIGN_RIGHT, 1, bf12);
+                insertCell(headerTable, currentProduct.productName, Element.ALIGN_RIGHT, 1, bf12);
+                insertCell(headerTable, currentProduct.quantity, Element.ALIGN_RIGHT, 1, bf12);
+                insertCell(headerTable, currentProduct.date, Element.ALIGN_RIGHT, 1, bf12);
+            }
+            paragraph.add(headerTable);
+            /* Attach report table to PDF */
+            my_pdf_report.add(paragraph);
+            my_pdf_report.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CurrentStoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void insertCell(PdfPTable table, String text, int align, int colspan, Font font) {
+
+        //create a new cell with the specified Text and Font
+        PdfPCell cell = new PdfPCell(new Phrase(text.trim(), font));
+        //set the cell alignment
+        cell.setHorizontalAlignment(align);
+        //set the cell column span in case you want to merge two or more cells
+        cell.setColspan(colspan);
+        //in case there is no text and you wan to create an empty row
+        if (text.trim().equalsIgnoreCase("")) {
+            cell.setMinimumHeight(10f);
+        }
+        //add the call to the table
+        table.addCell(cell);
+
     }
 
 }

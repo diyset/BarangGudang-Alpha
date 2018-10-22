@@ -8,8 +8,11 @@ package controller.application.sell;
 import DAL.SellCart;
 import Getway.SellCartGerway;
 import List.ListSold;
+import controller.application.util.Constants;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +35,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import media.userNameMedia;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.swing.JRViewer;
 
 /**
  *
@@ -39,6 +53,7 @@ import media.userNameMedia;
  */
 public class ViewSellController implements Initializable{
     
+    private static final long serialVersionUID = 1L;
     userNameMedia nameMedia;
     // Object Sell Cart
     SellCart sellCart = new SellCart();
@@ -74,6 +89,8 @@ public class ViewSellController implements Initializable{
     private TextField tfSearch;
     @FXML
     private Button btnRefresh;
+    @FXML
+    private Button btnShowReport;
 
     public void setNameMedia(userNameMedia nameMedia) {
         userId = nameMedia.getId();
@@ -152,6 +169,44 @@ public class ViewSellController implements Initializable{
         tblClmWarrenty.setCellValueFactory(new PropertyValueFactory<>("warrentyVoidDate"));
         tblClmSoldBy.setCellValueFactory(new PropertyValueFactory<>("sellerName"));
         sellCartGerway.view(sellCart);
+    }
+    
+    private void showReportOfWeek() {
+        String reportFile = "G:/TestJaspert/test.jrxml";
+        String outputFilePDF = "G:/TestJaspert/test1.pdf";
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportFile);
+            JRExporter exporter = new JRPdfExporter();
+            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFilePDF);
+            
+            HashMap<String, Object> param = new HashMap<String, Object>();
+            param.put("company","EXAMPLE");
+        
+            ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+            list.add(param);
+            
+            JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(list);
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, param,beanCollectionDataSource);
+            JRViewer viewer = new JRViewer(print);
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT,print);
+            exporter.exportReport();
+            
+            viewer.setOpaque(true);
+            viewer.setVisible(true);
+            Stage stage = new Stage();
+            System.out.println("done");
+        } catch (JRException ex) {
+            Logger.getLogger(ViewSellController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void btnShowReportAction(ActionEvent event) {
+        try{
+            showReportOfWeek();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     

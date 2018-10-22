@@ -7,6 +7,7 @@ package Getway;
 
 import DAL.Customer;
 import List.ListCustomer;
+import controller.application.util.Constants;
 import dataBase.DBConnection;
 import dataBase.DBProperties;
 import dataBase.SQL;
@@ -72,7 +73,7 @@ public class CustomerGetway {
                 customer.customerName = rs.getString(2);
                 customer.customerConNo = rs.getString(3);
                 customer.customerAddress = rs.getString(4);
-                customer.totalBuy = rs.getString(5);
+                customer.totalBuy = Constants.dfWithCurrency.format(Double.parseDouble(rs.getString(5)!=null ? rs.getString(5):"0"));
                 customer.userId = rs.getString(6);
                 customer.date = rs.getString(7);
                 customer.userName = sql.getName(customer.userId, customer.userName, "User");

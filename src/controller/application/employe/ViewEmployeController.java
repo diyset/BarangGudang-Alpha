@@ -57,11 +57,7 @@ import controller.RegistrationController;
 import dataBase.DBProperties;
 import java.util.Optional;
 
-/**
- * FXML Controller class
- *
- * @author rifat
- */
+
 public class ViewEmployeController implements Initializable {
 
     CustomPf cPf = new CustomPf();
@@ -177,7 +173,12 @@ public class ViewEmployeController implements Initializable {
 
     @FXML
     private void tfSearchOnAction(ActionEvent event) {
-
+        users.employeeLists.clear();
+        users.userName = tfSearch.getText().trim();
+        tblEmoyeeList.setItems(users.employeeLists);
+        clmEmployeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        clmEmployeName.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
+        usersGetway.searchView(users);
     }
 
     @FXML
@@ -200,7 +201,6 @@ public class ViewEmployeController implements Initializable {
             recUsrImage.setFill(new ImagePattern(image));
             imagePath = file.getAbsolutePath();
         }
-
     }
 
     @FXML
@@ -350,7 +350,7 @@ public class ViewEmployeController implements Initializable {
 
     }
 
-    public void checqPermission() {
+    public void checkPermission() {
         try {
             pst = con.prepareStatement("select * from "+db+".UserPermission where UserId=?");
             pst.setString(1, userId);
