@@ -26,18 +26,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import media.userNameMedia;
 import DAL.Users;
+import controller.application.util.UpdateableBcrypt;
 import dataBase.DBProperties;
 import javafx.scene.control.Alert;
 import javafx.stage.StageStyle;
+import utility.PopupAlert;
 
-/**
- * FXML Controller class
- *
- * @author rifat
- */
 public class PassChangeController implements Initializable {
 
     Users users = new Users();
+
+    UpdateableBcrypt bcrypt = new UpdateableBcrypt();
 
     @FXML
     private PasswordField pfCurrentPass;
@@ -81,7 +80,7 @@ public class PassChangeController implements Initializable {
     Connection con;
     ResultSet rs;
     PreparedStatement pst;
-    
+
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
 
@@ -107,8 +106,9 @@ public class PassChangeController implements Initializable {
         if (isCurrentPasswordChecqOk()) {
             if (isPasswordMatch()) {
                 updatePassword();
+                Stage stage = (Stage) btnChangePass.getScene().getWindow();
+                stage.close();
             }
-
         } else {
             System.out.println("ddd");
         }
@@ -144,20 +144,15 @@ public class PassChangeController implements Initializable {
         boolean conDitionValid = true;
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from User where Id=? and Password=?");
+            pst = con.prepareStatement("select * from "+db+".User where Id=?");
             pst.setString(1, userId);
-            pst.setString(2, pfCurrentPass.getText());
             rs = pst.executeQuery();
             while (rs.next()) {
-                System.out.println("Old Password Match");
-                return conDitionValid;
+                if (bcrypt.verifyHash(pfCurrentPass.getText(), rs.getString("Password"))) {
+                    return conDitionValid;
+                }
             }
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR ");
-            alert.setContentText("Invalid password");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.showAndWait();
+            PopupAlert.AlertError("Invalid Password!");
             conDitionValid = false;
 
         } catch (SQLException ex) {
@@ -190,20 +185,12 @@ public class PassChangeController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update "+db+".User set Password=? where Id=?");
-            pst.setString(1, pfNewPass.getText());
+            pst = con.prepareStatement("Update " + db + ".User set Password=? where Id=?");
+            pst.setString(1, bcrypt.hash(pfNewPass.getText()));
             pst.setString(2, userId);
             pst.executeUpdate();
 
-            
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sucess");
-            alert.setHeaderText("Sucess ");
-            alert.setContentText("Update Password Sucessfuly");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.showAndWait();
-            
-
+            PopupAlert.AlertInformation("Update Password Berhasil!", "Success");
         } catch (SQLException ex) {
             Logger.getLogger(PassChangeController.class.getName()).log(Level.SEVERE, null, ex);
         }

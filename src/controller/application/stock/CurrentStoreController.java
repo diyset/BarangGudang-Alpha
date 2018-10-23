@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Optional;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import utility.PopupAlert;
 
 /**
  * FXML Controller class
@@ -90,8 +91,6 @@ public class CurrentStoreController implements Initializable {
     @FXML
     private ComboBox<String> cbSoteViewCatagory;
     @FXML
-    private ComboBox<String> cbSoteViewRMA;
-    @FXML
     private Button btnAddNew;
     @FXML
     private Button btnUpdate;
@@ -107,8 +106,6 @@ public class CurrentStoreController implements Initializable {
     private TableColumn<Object, Object> tblClmProductquantity;
     @FXML
     private TableColumn<Object, Object> tblClmProductUnit;
-    @FXML
-    private TableColumn<Object, Object> tblClmProductRMA;
     @FXML
     private TableColumn<Object, Object> tblClmProductSupplyer;
     @FXML
@@ -142,8 +139,6 @@ public class CurrentStoreController implements Initializable {
     private Button btnRefresh;
     @FXML
     public AnchorPane apCombobox;
-    @FXML
-    private Button btnReport;
 
     public userNameMedia getMedia() {
         return media;
@@ -247,23 +242,6 @@ public class CurrentStoreController implements Initializable {
 
     }
 
-    @FXML
-    private void cbSoteViewRMAOnClick(MouseEvent event) {
-        cbSoteViewRMA.getItems().clear();
-        con = dbCon.geConnection();
-        try {
-            pst = con.prepareStatement("select * from " + db + ".RMA");
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                cbSoteViewRMA.getItems().add(rs.getString(2));
-            }
-            rs.close();
-            con.close();
-            pst.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CurrentStoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     @FXML
     private void btnAddNewOnAction(ActionEvent event) {
@@ -299,6 +277,7 @@ public class CurrentStoreController implements Initializable {
             viewSelected();
         } else {
             System.out.println("EMPTY SELECTION");
+            PopupAlert.AlertInformationUpdate();
         }
     }
 
@@ -353,7 +332,6 @@ public class CurrentStoreController implements Initializable {
         tblClmProductUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         tblClmProductPursesPrice.setCellValueFactory(new PropertyValueFactory<>("pursesPrice"));
         tblClmProductSellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
-        tblClmProductRMA.setCellValueFactory(new PropertyValueFactory<>("rma"));
         tblClmProductAddBy.setCellValueFactory(new PropertyValueFactory<>("user"));
         tblClmProductdate.setCellValueFactory(new PropertyValueFactory<>("date"));
         currentProductGetway.viewFistTen(productCurrent);
@@ -489,14 +467,12 @@ public class CurrentStoreController implements Initializable {
     private void btnRefreshOnACtion(ActionEvent event) {
         productCurrent.currentProductList.clear();
         tfSearch.clear();
-        cbSoteViewRMA.getItems().clear();
         cbSoteViewSupplyer.getItems().clear();
         cbSoteViewBrands.getItems().clear();
         cbSoteViewCatagory.getItems().clear();
         cbSoteViewSupplyer.setPromptText("Select supplier");
         cbSoteViewBrands.setPromptText("select brands");
         cbSoteViewCatagory.setPromptText("select category");
-        cbSoteViewRMA.setPromptText("select rma");
 
         tblViewCurrentStore.setItems(productCurrent.currentProductList);
         tblClmProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
@@ -509,34 +485,12 @@ public class CurrentStoreController implements Initializable {
         tblClmProductUnit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         tblClmProductPursesPrice.setCellValueFactory(new PropertyValueFactory<>("pursesPrice"));
         tblClmProductSellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
-        tblClmProductRMA.setCellValueFactory(new PropertyValueFactory<>("rma"));
         tblClmProductAddBy.setCellValueFactory(new PropertyValueFactory<>("user"));
         tblClmProductdate.setCellValueFactory(new PropertyValueFactory<>("date"));
         currentProductGetway.view(productCurrent);
 
     }
 
-    @FXML
-    private void cbSoteViewRMAOnAction(ActionEvent event) {
-        con = dbCon.geConnection();
-        rmaName = cbSoteViewRMA.getSelectionModel().getSelectedItem();
-        System.out.println("Rma Name " + rmaName);
-        try {
-            pst = con.prepareStatement("select * from " + db + ".RMA where RMAName=?");
-            pst.setString(1, rmaName);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                System.out.println("in the loop" + rs.getString(1));
-                rmaID = rs.getString(1);
-                System.out.println("Print rma id" + rmaID);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CurrentStoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        productCurrent.rmaId = rmaID;
-        currentProductGetway.searchByRMA(productCurrent);
-    }
 
     @FXML
     private void tblViewCurrentStoreOnScroll(ScrollEvent event) {
@@ -547,7 +501,6 @@ public class CurrentStoreController implements Initializable {
         }
     }
 
-    @FXML
     private void onClickReport(ActionEvent event) throws DocumentException {
         Document my_pdf_report = new Document();
          float[] columnWidths = {1.5f, 2f, 5f, 2f};

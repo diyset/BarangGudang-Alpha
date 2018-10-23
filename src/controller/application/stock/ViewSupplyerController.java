@@ -34,7 +34,10 @@ import javafx.stage.StageStyle;
 import List.ListSupplyer;
 import DAL.Supplyer;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import media.userNameMedia;
+import utility.PopupAlert;
 
 /**
  * FXML Controller class
@@ -42,6 +45,7 @@ import media.userNameMedia;
  * @author rifat
  */
 public class ViewSupplyerController implements Initializable {
+
     @FXML
     public AnchorPane acContent;
     SQL sql = new SQL();
@@ -57,7 +61,6 @@ public class ViewSupplyerController implements Initializable {
     private String userName;
 
     private userNameMedia media;
-
 
     @FXML
     private TableView<ListSupplyer> tblSupplyer;
@@ -88,7 +91,6 @@ public class ViewSupplyerController implements Initializable {
     @FXML
     private Button btnRefresh;
 
-
     public userNameMedia getMedia() {
         return media;
     }
@@ -98,13 +100,11 @@ public class ViewSupplyerController implements Initializable {
         this.media = media;
     }
 
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
 
     }
 
@@ -122,7 +122,6 @@ public class ViewSupplyerController implements Initializable {
 
     }
 
-
     @FXML
     public void tfSearchOnType(Event event) {
         supplyer.supplyerDetails.removeAll();
@@ -138,7 +137,6 @@ public class ViewSupplyerController implements Initializable {
         supplyerGetway.searchView(supplyer);
     }
 
-
     public void showDetails() {
         tblSupplyer.setItems(supplyer.supplyerDetails);
         clmSUpplyerId.setCellValueFactory(new PropertyValueFactory<>("supplyerId"));
@@ -150,10 +148,6 @@ public class ViewSupplyerController implements Initializable {
         supplyerGetway.view(supplyer);
 
     }
-
-
-
-
 
     @FXML
     private void btnAdditemsOnAction(ActionEvent event) {
@@ -182,23 +176,22 @@ public class ViewSupplyerController implements Initializable {
         }
         tfSearchOnType(event);
 
-
     }
 
     @FXML
     private void btnUpdateOnAction(Event event) {
-        if(tblSupplyer.getSelectionModel().getSelectedItem() != null){
+        if (tblSupplyer.getSelectionModel().getSelectedItem() != null) {
             viewDetails();
-        }else {
+        } else {
             System.out.println("EMPTY SELECTION");
+            PopupAlert.AlertInformation("Pilih Item Terlebih Dahulu!", "Warning!");
         }
 
     }
 
     private void viewDetails() {
-        if(!tblSupplyer.getSelectionModel().isEmpty()){
+        if (!tblSupplyer.getSelectionModel().isEmpty()) {
             ListSupplyer selectedSupplyer = tblSupplyer.getSelectionModel().getSelectedItem();
-            System.out.println("ID is");
             System.out.println(selectedSupplyer.getSupplyerId());
             String items = selectedSupplyer.getSupplyerId();
             if (!items.equals(null)) {
@@ -214,7 +207,7 @@ public class ViewSupplyerController implements Initializable {
                     AddSupplyerController supplyerController = fxmlLoader.getController();
                     media.setId(usrId);
                     supplyerController.setMedia(media);
-                    supplyerController.lblCaption.setText("Supplyer Details");
+                    supplyerController.lblCaption.setText("Vendor Details");
                     supplyerController.btnUpdate.setVisible(true);
                     supplyerController.btnSave.setVisible(false);
                     supplyerController.supplyerId = selectedSupplyer.getSupplyerId();
@@ -228,11 +221,10 @@ public class ViewSupplyerController implements Initializable {
                     e.printStackTrace();
                 }
             }
-        }else {
-            System.out.println("empty Selection");
+        } else {
+            Logger.getLogger(ViewSupplyerController.class.getName()).log(Level.INFO, "Item is Null!");
+
         }
-
-
 
     }
 
@@ -263,15 +255,13 @@ public class ViewSupplyerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             supplyer.id = selectedSupplyer.getSupplyerId();
-            System.out.println(supplyer.id+ "On hear");
+            System.out.println(supplyer.id + "On hear");
             supplyerBLL.delete(supplyer);
             tblSupplyer.getItems().clear();
             showDetails();
-        }else{
-            
-        }
-        
+        } else {
 
+        }
 
     }
 
@@ -298,6 +288,5 @@ public class ViewSupplyerController implements Initializable {
         supplyer.supplyerDetails.clear();
         showDetails();
     }
-
 
 }

@@ -48,6 +48,7 @@ public class AddStoreInController implements Initializable {
     userNameMedia nameMedia;
     String userId;
     String productId;
+    String supplierId;
     int quantity;
     @FXML
     private MenuButton mbtnProduct;
@@ -113,6 +114,7 @@ public class AddStoreInController implements Initializable {
     SupplyerGetway supplyerGetway = new SupplyerGetway();
     WarehouseBLL warehouseBLL = new WarehouseBLL();
     Warehouse warehouse = new Warehouse();
+
     /**
      * Initializes the controller class.
      */
@@ -159,10 +161,18 @@ public class AddStoreInController implements Initializable {
         //NEXT FOR BUILD
         // UPDATE STOCK ON THE TBL_PRODUCT
         // MENYIMMPAN HISTORY BARANG MASUK KE TBL_STOREIN
-        
-        System.out.println(product);
-        
-//        warehouseBLL.productInWarehouse(warehouse);
+        Warehouse warehouseAdd = new Warehouse();
+        warehouseAdd.setId(null);
+        warehouseAdd.setProductId(product.getProductId());
+        warehouseAdd.setQuantity(tfQuantity.getText());
+        warehouseAdd.setSupplierId(supplierId);
+        warehouseAdd.setStoreInId(lblSellId.getText());
+        warehouseAdd.setUserId(userId);
+        System.out.println(product.toString());
+        System.out.println(supplyer.toString());
+        System.out.println(warehouseAdd.toString());
+        System.out.println(System.getProperty("user.dir"));
+//        warehouseBLL.productInWarehouse(warehouseAdd);
     }
 
     @FXML
@@ -182,7 +192,7 @@ public class AddStoreInController implements Initializable {
                 currentProductGetway.sView(currentProduct);
                 /*
                    SET TO COMPONENT
-                */
+                 */
                 lblCurrentQuantity.setText(currentProduct.quantity);
                 tfProductName.setText(currentProduct.productName);
                 tfSellPrice.setText(currentProduct.sellPrice);
@@ -224,7 +234,7 @@ public class AddStoreInController implements Initializable {
         int nowYear = calendar.get(Calendar.YEAR);
         int nowMonth = calendar.get(Calendar.MONTH);
         int nowDayInMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        String id =  String.valueOf(nowMonth) + String.valueOf(nowDayInMonth)+productId + RandomIdGenarator.randomstring();
+        String id = String.valueOf(nowMonth) + String.valueOf(nowDayInMonth) + productId + RandomIdGenarator.randomstring();
         if (id.matches("001215")) {
             String nId = nowYear + tfProductId.getText() + RandomIdGenarator.randomstring();
             lblSellId.setText(nId);
@@ -266,6 +276,7 @@ public class AddStoreInController implements Initializable {
         tfProductId.clear();
         lblCurrentQuantity.setText("");
         mbtnProduct.setText("Select Product");
+        mbtnSupplier.setText("Select Vendor");
         lblSellId.setText("");
     }
 
@@ -281,10 +292,36 @@ public class AddStoreInController implements Initializable {
 
     @FXML
     private void tfSupplierSearchOnKeyReleased(KeyEvent event) {
+        supplyer.supplyerName = tfSupplierName.getText().trim();
+        tblSupplierSortView.setItems(supplyer.supplyerDetails);
+        tblClmSupplierName.setCellValueFactory(new PropertyValueFactory<>("supplyerName"));
+        tblClmSupplierPhoneNo.setCellValueFactory(new PropertyValueFactory<>("supplyerPhoneNumber"));
     }
 
     @FXML
     private void tblSupplierOnClick(MouseEvent event) {
+        try {
+            mbtnSupplier.setText(tblSupplierSortView.getSelectionModel().getSelectedItem().getSupplyerName());
+            supplierId = tblSupplierSortView.getSelectionModel().getSelectedItem().getSupplyerId();
+            if(supplierId==null && supplierId.equals("")){
+                tfSupplierName.setText("");
+                tfSupplierSearch.setText("Select Vendor");
+                tfSupplierPhone.setText("");
+            }
+            supplyer.id = supplierId;
+            supplyerGetway.searchView(supplyer);
+            
+            /*
+            Set COMPONENT
+            */
+            tfSupplierSearch.setText(supplyer.supplyerName);
+            tfSupplierName.setText(supplyer.supplyerName);
+            tfSupplierPhone.setText(supplyer.supplyerContactNumber);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @FXML

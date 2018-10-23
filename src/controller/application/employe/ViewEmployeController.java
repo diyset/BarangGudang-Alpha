@@ -54,9 +54,9 @@ import List.ListEmployee;
 
 import DAL.Users;
 import controller.RegistrationController;
+import controller.application.settings.PassChangeController;
 import dataBase.DBProperties;
 import java.util.Optional;
-
 
 public class ViewEmployeController implements Initializable {
 
@@ -66,8 +66,7 @@ public class ViewEmployeController implements Initializable {
     UsersGetway usersGetway = new UsersGetway();
     SQL sql = new SQL();
     DBConnection dbCon = new DBConnection();
-    
-    
+
     DBProperties dBProperties = new DBProperties();
     String db = dBProperties.loadPropertiesFile();
 
@@ -248,7 +247,7 @@ public class ViewEmployeController implements Initializable {
             usersGetway.selectedView(users);
             usersGetway.delete(users);
         }
-        
+
         tblEmoyeeList.getItems().clear();
         showDetails();
 
@@ -265,6 +264,29 @@ public class ViewEmployeController implements Initializable {
 
     @FXML
     private void hlChangePasswordOnAction(ActionEvent event) {
+
+        try {
+            PassChangeController passChangeCOntroller = new PassChangeController();
+            userNameMedia nameMedia = new userNameMedia();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/application/settings/PassChange.fxml"));
+            loader.load();
+            Parent root = loader.getRoot();
+            Scene scene = new Scene(root);
+            scene.setFill(new Color(0,0,0,0));
+            passChangeCOntroller = loader.getController();
+            nameMedia.setId(userId);
+            passChangeCOntroller.setNameMedia(nameMedia);
+            Stage nStage = new Stage();
+            nStage.setScene(scene);
+            nStage.setTitle("Change Password");
+            nStage.initModality(Modality.APPLICATION_MODAL);
+            nStage.initStyle(StageStyle.TRANSPARENT);
+            nStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewEmployeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -352,7 +374,7 @@ public class ViewEmployeController implements Initializable {
 
     public void checkPermission() {
         try {
-            pst = con.prepareStatement("select * from "+db+".UserPermission where UserId=?");
+            pst = con.prepareStatement("select * from " + db + ".UserPermission where UserId=?");
             pst.setString(1, userId);
             rs = pst.executeQuery();
             while (rs.next()) {

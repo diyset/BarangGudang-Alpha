@@ -169,7 +169,7 @@ public class MyAccountController implements Initializable {
                     nStage.show();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Permiss");
+                    alert.setTitle("Permission");
                     alert.setHeaderText("Permission denied");
                     alert.setContentText("You are no longer to make change your password");
                     alert.initStyle(StageStyle.UNDECORATED);
@@ -215,7 +215,6 @@ public class MyAccountController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilterjpg = new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
         FileChooser.ExtensionFilter extFilterpng = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
-
         fileChooser.getExtensionFilters().addAll(extFilterjpg, extFilterpng);
 
         file = fileChooser.showOpenDialog(null);

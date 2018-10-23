@@ -17,10 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- *
- * @author rifat
- */
 public class StoreKeeper extends Application {
     
     public StoreKeeper() {
@@ -45,7 +41,6 @@ public class StoreKeeper extends Application {
             Logger.getLogger(StoreKeeper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     /**
      * @param args the command line arguments
      */

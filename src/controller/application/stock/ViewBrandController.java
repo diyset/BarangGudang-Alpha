@@ -36,6 +36,7 @@ import DAL.Brands;
 import Getway.BrandsGetway;
 import List.ListBrands;
 import java.util.Optional;
+import utility.PopupAlert;
 
 /**
  * FXML Controller class
@@ -163,6 +164,7 @@ public class ViewBrandController implements Initializable {
             viewDetails();
         } else {
             System.out.println("EMPTY SELECTION");
+            PopupAlert.AlertInformationUpdate();
         }
 
     }

@@ -4,28 +4,47 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/BLL/CustomerBLL.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/BLL/WarehouseBLL.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/Product.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/List/ListWarehouse.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/custom/History.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/dataBase/DBConnection.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/SellCartGerway.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/Supplyer.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/CurrentProduct.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/storein/AddStoreInController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/sell/NewSellController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/LoginController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/report/JRViewerFxMode.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/ProductGetway.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/util/Constants.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/ApplicationController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/BLL/SellCartBLL.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/stock/CurrentStoreController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/StoreKeeper/StoreKeeper.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/Customer.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/dataBase/DBModel.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/employe/ViewEmployeController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/Warehouse.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/SellController.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/sell/ViewSellController.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/custom/History.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/WarehouseGetway.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/sell/ViewCustomerController.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/SellCartGerway.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/view/application/storein/AddStoreIn.fxml</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/SellCart.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/sell/AddCustomerController.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/CurrentProductGetway.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/DAL/CurrentProduct.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/LoginController.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/sell/NewSellController.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/home/HomeController.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/view/application/Stock.fxml</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/storein/ViewStoreInController.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/CustomerGetway.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/util/Constants.java</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/ApplicationController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/WarehouseController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/utility/ReportLoader.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/nbproject/project.properties</file>
-            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/BLL/SellCartBLL.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/dataBase/DBProperties.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/Getway/UsersGetway.java</file>
             <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/controller/application/StockController.java</file>
+            <file>file:/G:/Tutorial/Java/Swing/github/StoreKeeper/src/StoreKeeper/FXMLDocumentController.java</file>
         </group>
     </open-files>
 </project-private>

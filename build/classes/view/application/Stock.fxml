@@ -34,7 +34,6 @@
                               <ToggleButton fx:id="btnBrands" mnemonicParsing="false" onAction="#btnBrandsOnAction" text="Brands" />
                               <ToggleButton fx:id="btnCatagory" mnemonicParsing="false" onAction="#btnCatagoryOnAction" text="Category" />
                               <ToggleButton fx:id="btnUnit" mnemonicParsing="false" onAction="#btnUnitOnAction" text="Unit" />
-                              <ToggleButton fx:id="btnRma" mnemonicParsing="false" onAction="#btnRmaOnAction" text="RMA" />
                               <ToggleButton fx:id="btnRepoerts" mnemonicParsing="false" onAction="#btnRepoertsOnAction" text="Report PDF" />
                            </children>
                            <padding>

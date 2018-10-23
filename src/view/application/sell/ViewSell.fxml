@@ -40,7 +40,6 @@
                   <TableColumn fx:id="tblClmSellPrice" prefWidth="92.0" text="Sell Price" />
                   <TableColumn fx:id="tblClmQuantity" prefWidth="99.0" text="Quantity" />
                   <TableColumn fx:id="tblClmTotalPrice" prefWidth="103.0" text="Total Price" />
-                  <TableColumn fx:id="tblClmWarrenty" prefWidth="75.0" text="RMA" />
                   <TableColumn fx:id="tblClmSoldBy" prefWidth="113.0" text="Sell By" />
               </columns>
                <columnResizePolicy>

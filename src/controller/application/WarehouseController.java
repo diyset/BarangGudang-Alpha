@@ -33,15 +33,12 @@ public class WarehouseController implements Initializable {
     @FXML
     private Label lblPathInfo;
     @FXML
-    private ToggleButton tbtnWarehouse;
-    @FXML
     private ToggleButton tbtnReports;
     @FXML
     private StackPane spMainContent;
     @FXML
     public AnchorPane acMainWarehouses;
 
-    @FXML
     public void tbtnWarehouseOnAction(ActionEvent event) {
         lblPathInfo.setText("Warehouse");
         ViewStoreInController viewStoreInController = new ViewStoreInController();
@@ -69,8 +66,6 @@ public class WarehouseController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ToggleGroup group = new ToggleGroup();
-        tbtnWarehouse.setSelected(true);
-        tbtnWarehouse.setToggleGroup(group);
         
     }
 

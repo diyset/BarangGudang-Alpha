@@ -38,6 +38,7 @@ import controller.RegistrationController;
 import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import utility.PopupAlert;
 
 /**
  *
@@ -136,6 +137,7 @@ public class ViewCustomerController implements Initializable {
             selectedView();
         } else {
             System.out.println("EMPTY SELECTION");
+            PopupAlert.AlertInformation("Harap Pilih Terlebih Dahulu Item!", "Warning!");
         }
     }
 

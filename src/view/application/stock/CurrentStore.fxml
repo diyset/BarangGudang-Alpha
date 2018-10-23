@@ -25,8 +25,7 @@
                       <TableColumn fx:id="tblClmProductName" prefWidth="150.0" text="NAME" />
                         <TableColumn fx:id="tblClmProductquantity" prefWidth="100.0" text="Quantity" />
                         <TableColumn fx:id="tblClmProductUnit" prefWidth="75.0" text="Unit" />
-                        <TableColumn fx:id="tblClmProductRMA" prefWidth="100.0" text="RMA" />
-                        <TableColumn fx:id="tblClmProductSupplyer" prefWidth="150.0" text="Supplier" />
+                        <TableColumn fx:id="tblClmProductSupplyer" prefWidth="150.0" text="Vendor" />
                         <TableColumn fx:id="tblClmProductBrand" prefWidth="100.0" text="Brand" />
                         <TableColumn fx:id="tblClmProductCatagory" prefWidth="100.0" text="Category" />
                         <TableColumn fx:id="tblClmProductPursesPrice" prefWidth="150.0" text="Purses Price" />
@@ -47,7 +46,6 @@
                <bottom>
                   <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="944.0" spacing="20.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="btnReport" mnemonicParsing="false" onAction="#onClickReport" text="Report" />
                         <Button fx:id="btnAddNew" mnemonicParsing="false" onAction="#btnAddNewOnAction" text="Add New" />
                         <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
@@ -72,10 +70,9 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="944.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <ComboBox fx:id="cbSoteViewSupplyer" onAction="#cbSoteViewSupplyerOnAction" onMouseClicked="#cbSoteViewSupplyerOnClick" prefWidth="150.0" promptText="Supplier" />
+                                    <ComboBox fx:id="cbSoteViewSupplyer" onAction="#cbSoteViewSupplyerOnAction" onMouseClicked="#cbSoteViewSupplyerOnClick" prefWidth="150.0" promptText="Vendor" />
                                     <ComboBox fx:id="cbSoteViewBrands" onAction="#cbSoteViewBrandOnAction" onMouseClicked="#cbSoteViewBrandOnClick" prefWidth="150.0" promptText="Brands" />
                                     <ComboBox fx:id="cbSoteViewCatagory" onAction="#cbSoteViewCatagoryOnAction" onMouseClicked="#cbSoteViewCatagoryOnClick" prefWidth="150.0" promptText="Category" />
-                                    <ComboBox fx:id="cbSoteViewRMA" onAction="#cbSoteViewRMAOnAction" onMouseClicked="#cbSoteViewRMAOnClick" prefWidth="150.0" promptText="RMA" />
                                  </children>
                               </HBox>
                            </children>

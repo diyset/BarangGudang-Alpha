@@ -161,8 +161,6 @@ public class LoginController implements Initializable {
                     pst = con.prepareStatement("select * from " + db + ".User where UsrName=? and Status=1");
                     System.out.println(bcrypt.hash(pfUserPassword.getText()));
                     pst.setString(1, tfUserName.getText());
-//                  pst.setString(2, pfUserPassword.getText());
-//                    pst.setString(2, bcrypt.verifyHash(pfUserPassword.getText(),bcrypt.hash(pfUserPassword.getText())));
                     rs = pst.executeQuery();
                     if (rs.next()) {
                         if (bcrypt.verifyHash(pfUserPassword.getText(), rs.getString("Password"))) {

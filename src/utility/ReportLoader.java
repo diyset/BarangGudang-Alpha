@@ -36,7 +36,7 @@ public class ReportLoader extends Thread {
             File dir = new File(baseFile);
             File files[] = dir.listFiles();
             for (File file : files) {
-                if (file.getName().endsWith(".jasper")) {
+                if (file.getName().endsWith(".jrxml")) {
                     loadFile(file);
                 }
             }

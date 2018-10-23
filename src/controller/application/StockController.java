@@ -68,8 +68,6 @@ public class StockController implements Initializable {
     @FXML
     private ToggleButton btnUnit;
     @FXML
-    private ToggleButton btnRma;
-    @FXML
     private ToggleButton btnRepoerts;
     
     DBProperties dBProperties = new DBProperties();
@@ -105,7 +103,6 @@ public class StockController implements Initializable {
         btnBrands.setToggleGroup(toggleGroup);
         btnCatagory.setToggleGroup(toggleGroup);
         btnUnit.setToggleGroup(toggleGroup);
-        btnRma.setToggleGroup(toggleGroup);
         btnRepoerts.setToggleGroup(toggleGroup);
 
 
@@ -198,7 +195,6 @@ public class StockController implements Initializable {
         spMainContent.getChildren().add(acPane);
     }
 
-    @FXML
     private void btnRmaOnAction(ActionEvent event) throws IOException {
         lblHeader.setText("RMA");
         ViewRMAController vrmac = new ViewRMAController();
@@ -234,10 +230,7 @@ public class StockController implements Initializable {
                     btnCatagory.setDisable(true);
                 }if(rs.getInt(6) == 0 && rs.getInt(12) == 0){
                     btnUnit.setDisable(true);
-                }if(rs.getInt(14) == 0){
-                    btnRma.setDisable(true);
                 }
-                
                 else{
                     
                 }

@@ -39,12 +39,12 @@ public class WarehouseGetway {
         try {
             pst = con.prepareStatement("insert into " + db + ".StoreIn values(?,?,?,?,?,?,?)");
             pst.setString(1, null);
-            pst.setString(2, warehouse.storeInId);
-            pst.setString(3, warehouse.productId);
-            pst.setString(4, warehouse.quantity);
-            pst.setString(5, warehouse.totalPrice);
-            pst.setString(6, warehouse.supplierId);
-            pst.setString(7, warehouse.userId);
+            pst.setString(2, warehouse.getStoreInId());
+            pst.setString(3, warehouse.getProductId());
+            pst.setString(4, warehouse.getQuantity());
+            pst.setString(5, warehouse.getTotalPrice());
+            pst.setString(6, warehouse.getSupplierId());
+            pst.setString(7, warehouse.getUserId());
             pst.setString(8, LocalDateTime.now().toString());
             pst.executeUpdate();
             pst.close();

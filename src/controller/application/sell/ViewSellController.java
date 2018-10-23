@@ -9,9 +9,21 @@ import DAL.SellCart;
 import Getway.SellCartGerway;
 import List.ListSold;
 import controller.application.util.Constants;
+import custom.RandomIdGenarator;
+import dataBase.DBConnection;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +35,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,6 +44,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -39,6 +53,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -51,15 +66,15 @@ import net.sf.jasperreports.swing.JRViewer;
  *
  * @author rifat
  */
-public class ViewSellController implements Initializable{
-    
+public class ViewSellController implements Initializable {
+
     private static final long serialVersionUID = 1L;
     userNameMedia nameMedia;
     // Object Sell Cart
     SellCart sellCart = new SellCart();
     // Gate Way backend SellCart
     SellCartGerway sellCartGerway = new SellCartGerway();
-    
+    private File fileReport;
     String userId;
     @FXML
     private Button btnSellOrder;
@@ -81,8 +96,6 @@ public class ViewSellController implements Initializable{
     private TableColumn<Object, Object> tblClmQuantity;
     @FXML
     private TableColumn<Object, Object> tblClmTotalPrice;
-    @FXML
-    private TableColumn<Object, Object> tblClmWarrenty;
     @FXML
     private TableColumn<Object, Object> tblClmSoldBy;
     @FXML
@@ -129,8 +142,8 @@ public class ViewSellController implements Initializable{
             Logger.getLogger(ViewCustomerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void viewDetails(){
+
+    public void viewDetails() {
         tblSellView.setItems(sellCart.soldList);
         tblClmCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         tblClmSellId.setCellValueFactory(new PropertyValueFactory<>("sellId"));
@@ -140,7 +153,6 @@ public class ViewSellController implements Initializable{
         tblClmSellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         tblClmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         tblClmTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        tblClmWarrenty.setCellValueFactory(new PropertyValueFactory<>("warrentyVoidDate"));
         tblClmSoldBy.setCellValueFactory(new PropertyValueFactory<>("sellerName"));
         sellCartGerway.firstTenView(sellCart);
     }
@@ -166,49 +178,95 @@ public class ViewSellController implements Initializable{
         tblClmSellPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
         tblClmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         tblClmTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        tblClmWarrenty.setCellValueFactory(new PropertyValueFactory<>("warrentyVoidDate"));
         tblClmSoldBy.setCellValueFactory(new PropertyValueFactory<>("sellerName"));
         sellCartGerway.view(sellCart);
     }
-    
-    private void showReportOfWeek() {
-        String reportFile = "G:/TestJaspert/test.jrxml";
-        String outputFilePDF = "G:/TestJaspert/test1.pdf";
+
+    private void showReportOfWeek(String locationDir) {
+        String reportFile = "G:/TestJaspert/Invoice.jrxml";
+        System.out.println();
+        String tempInvoiceId = generateInvoiceReport();
+        String outputTemp = locationDir.replaceAll("\\\\", "/");
+        String outputFilePDF = "G:/TestJaspert/" + tempInvoiceId + ".pdf";
+        System.out.println(outputTemp);
+        System.out.println(File.separator);
         try {
+
+            DBConnection dbCon = new DBConnection();
+            Connection con = dbCon.geConnection();
+            Statement stm = con.createStatement();
+            String query = "select S.Id as Id, S.SellId as `SellId`,C.CustomerName as `CustomerId`, P.ProductName as `ProductId`, S.PursesPrice as `PursesPrice`,S.SellPrice\n"
+                    + "  as `SellPrice`,S.Quantity as `Quantity`, S.TotalPrice as `TotalPrice`, U.UsrName as `SellerId`, S.SellDate as `SellDate` , S.WarrentyVoidDate as `WarrentyVoidDate`\n"
+                    + "from pembukuan.sell as S\n"
+                    + "  join pembukuan.customer C on S.CustomerId = C.Id\n"
+                    + "  join pembukuan.user U on S.SellerId = U.Id\n"
+                    + "  join pembukuan.products P on S.ProductId = P.id\n"
+                    + "WHERE S.SellDate >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY\n"
+                    + "AND S.SellDate < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY";
+            ResultSet rs = stm.executeQuery(query);
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
             JasperReport jasperReport = JasperCompileManager.compileReport(reportFile);
             JRExporter exporter = new JRPdfExporter();
-            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFilePDF);
-            
+            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputTemp);
+
             HashMap<String, Object> param = new HashMap<String, Object>();
-            param.put("company","EXAMPLE");
-        
-            ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+//            param.put("company", "EXAMPLE");
+            param.put("imagedir", "G:/TestJaspert/");
+            param.put("invoice", tempInvoiceId);
+            param.put("datenow", Constants.sdf.format(new Date()));
+            ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
             list.add(param);
-            
+
             JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(list);
-            JasperPrint print = JasperFillManager.fillReport(jasperReport, param,beanCollectionDataSource);
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, param, jrRS);
             JRViewer viewer = new JRViewer(print);
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT,print);
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
             exporter.exportReport();
-            
+
             viewer.setOpaque(true);
             viewer.setVisible(true);
-            Stage stage = new Stage();
+//            Stage stage = new Stage();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Print");
+            alert.setContentText("Created File Success : " + outputTemp);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
             System.out.println("done");
-        } catch (JRException ex) {
+            con.close();
+            stm.close();
+            rs.close();
+        } catch (JRException |SQLException ex) {
             Logger.getLogger(ViewSellController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    private String generateInvoiceReport() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int nowMonth = calendar.get(Calendar.MONTH);
+        int nowDayInMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        String id = String.valueOf(nowMonth) + String.valueOf(nowDayInMonth) + RandomIdGenarator.randomstring();
+        return id;
+
+    }
+
     @FXML
     private void btnShowReportAction(ActionEvent event) {
-        try{
-            showReportOfWeek();
-        } catch(Exception e){
+        try {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("pdf files (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            fileChooser.setInitialFileName(generateInvoiceReport());
+            fileReport = fileChooser.showSaveDialog(null);
+            System.out.println(fileReport.getAbsoluteFile()); 
+            System.out.println(fileReport.getAbsolutePath());
+            showReportOfWeek(fileReport.getAbsolutePath());
+        } catch (Exception e) {
             e.printStackTrace();
+            
         }
     }
-    
-    
-    
+
 }
